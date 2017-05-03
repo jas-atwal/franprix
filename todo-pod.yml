@@ -1,0 +1,43 @@
+---
+# Service to expose frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: mytodos
+  labels:
+    app: mytodos
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 3000
+  selector:
+    app: mytodos
+    tier: frontend
+---
+# Application to deploy
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mytodos
+spec:
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template: # create pods using pod definition in this template
+    metadata:
+      labels:
+        app: mytodos
+        tier: frontend
+    spec:
+      containers:
+      - name: mytodos
+        image: registry.ng.bluemix.net/mace/todo
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          - name: CONVERSATION_SERVICE_CAR
+            valueFrom:
+              secretKeyRef:
+                name: binding-conversation-service-car
+                key: binding
