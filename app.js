@@ -70,7 +70,7 @@ require("./app/database.js")(appEnv, cloudantCreds, "todos",
 
 // set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public'));
-app.use(favicon(__dirname + '/public/icons/favicon-check.ico'));
+app.use(favicon(__dirname + '/public/icons/favicon-shopping-cart.ico'));
 
 // start server on the specified port and binding host
 //app.listen(appEnv.port, "0.0.0.0", function () {
